@@ -17,43 +17,22 @@ import com.leo.task_api.repository.TaskRepository;
 @RequestMapping("/task")
 public class TaskController {
 
-@Autowired
-private TaskRepository taskRepository;
+    @Autowired
+    private TaskRepository taskRepository;
 
-    // @GetMapping
-    // public List<TaskDTO> getTasks() {
-    //     return taskRepository.findAll().stream()
-    //             .map(task -> new TaskDTO(
-    //                 task.getId(), 
-    //                 task.getTitle(), 
-    //                 task.getDescription(), 
-    //                 task.getStatus() != null ? task.getStatus().name() : "UNKNOWN"))
-    //             .collect(Collectors.toList());
-    // }
-
+    // Método para pegar todas as tarefas
     @GetMapping
-    public List<TaskDTO> getUsers() {
-        return taskRepository.getAlltasks();
+    public List<TaskDTO> getTasks() {
+        return taskRepository.findAll().stream()
+                .map(task -> new TaskDTO(task))  // Convertendo Task para TaskDTO
+                .collect(Collectors.toList());
     }
 
+    // Método para pegar uma tarefa por ID
     @GetMapping("/{id}")
     public ResponseEntity<TaskDTO> getTaskById(@PathVariable Long id) {
         return taskRepository.findById(id)
-                .map(task -> ResponseEntity.ok(new TaskDTO(task)))
+                .map(task -> ResponseEntity.ok(new TaskDTO(task)))  // Convertendo Task para TaskDTO
                 .orElse(ResponseEntity.notFound().build());
-
     }
-
-    // @GetMapping({"/{id}"})
-    // public ResponseEntity<TaskDTO> getTaskById(@PathVariable Long id) {
-    //     return taskRepository.findById(id)
-    //             .map(task -> ResponseEntity.ok(
-    //                     new TaskDTO(
-    //                             task.getId(),
-    //                             task.getTitle(),
-    //                             task.getDescription(),
-    //                             task.getStatus() != null ? task.getStatus().name() : "UNKNOWN"
-    //                     )))
-    //             .orElse(ResponseEntity.notFound().build());
-    // }
 }
