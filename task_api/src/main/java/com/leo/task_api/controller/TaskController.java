@@ -20,27 +20,40 @@ public class TaskController {
 @Autowired
 private TaskRepository taskRepository;
 
+    // @GetMapping
+    // public List<TaskDTO> getTasks() {
+    //     return taskRepository.findAll().stream()
+    //             .map(task -> new TaskDTO(
+    //                 task.getId(), 
+    //                 task.getTitle(), 
+    //                 task.getDescription(), 
+    //                 task.getStatus() != null ? task.getStatus().name() : "UNKNOWN"))
+    //             .collect(Collectors.toList());
+    // }
+
     @GetMapping
-    public List<TaskDTO> getTasks() {
-        return taskRepository.findAll().stream()
-                .map(task -> new TaskDTO(
-                    task.getId(), 
-                    task.getTitle(), 
-                    task.getDescription(), 
-                    task.getStatus() != null ? task.getStatus().name() : "UNKNOWN"))
-                .collect(Collectors.toList());
+    public List<TaskDTO> getUsers() {
+        return taskRepository.getAlltasks();
     }
 
-    @GetMapping({"/{id}"})
+    @GetMapping("/{id}")
     public ResponseEntity<TaskDTO> getTaskById(@PathVariable Long id) {
         return taskRepository.findById(id)
-                .map(task -> ResponseEntity.ok(
-                        new TaskDTO(
-                                task.getId(),
-                                task.getTitle(),
-                                task.getDescription(),
-                                task.getStatus() != null ? task.getStatus().name() : "UNKNOWN"
-                        )))
+                .map(task -> ResponseEntity.ok(new TaskDTO(task)))
                 .orElse(ResponseEntity.notFound().build());
+
     }
+
+    // @GetMapping({"/{id}"})
+    // public ResponseEntity<TaskDTO> getTaskById(@PathVariable Long id) {
+    //     return taskRepository.findById(id)
+    //             .map(task -> ResponseEntity.ok(
+    //                     new TaskDTO(
+    //                             task.getId(),
+    //                             task.getTitle(),
+    //                             task.getDescription(),
+    //                             task.getStatus() != null ? task.getStatus().name() : "UNKNOWN"
+    //                     )))
+    //             .orElse(ResponseEntity.notFound().build());
+    // }
 }
