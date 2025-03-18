@@ -8,20 +8,23 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
 
-@Data // Lombok vai gerar getters, setters, toString, equals, hashCode e construtores
-@Entity // A entidade que se comunica com o banco de dados
+@Entity
+@Data
 public class Task {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  // Garantindo a geração automática do ID
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String title;
     private String description;
 
-    @Enumerated(EnumType.STRING)  // Armazena o status como String no banco de dados
+    @Enumerated(EnumType.STRING)
     private TaskStatus status;
 
     public Task(String title, String description, TaskStatus status) {
+        this.title = title;
+        this.description = description;
+        this.status = status;
     }
 }
