@@ -21,4 +21,7 @@ public class Task {
 
     @Enumerated(EnumType.STRING)  // Armazena o status como String no banco de dados
     private TaskStatus status;
+
+    public Task(String title, String description, TaskStatus status) {
+    }
 }
